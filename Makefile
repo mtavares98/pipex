@@ -6,7 +6,7 @@
 #    By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/17 14:14:38 by mtavares          #+#    #+#              #
-#    Updated: 2022/05/29 14:43:06 by mtavares         ###   ########.fr        #
+#    Updated: 2022/05/29 14:55:56 by mtavares         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,10 +46,10 @@ makerfclean:
 				make fclean -C printf
 
 clean:		makerclean
-				$(RM) $(OBJS)$(LIBS)
+				$(RM) $(OBJS)
 
 fclean:		makerfclean clean
-				$(RM) $(NAME) libftprintf.a ft_printf.h
+				$(RM) $(NAME)
 
 re:		fclean all
 

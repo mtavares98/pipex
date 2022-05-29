@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 14:27:41 by mtavares          #+#    #+#             */
-/*   Updated: 2022/05/27 12:40:08 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/05/28 18:20:45 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,14 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <sys/wait.h> 
-# include "ft_printf.h"
+# include "printf/ft_printf.h"
 
 typedef struct s_data
 {
-	char	**cmd;
-	char	*pc;
+	char	***cmd;
+	char	**pc;
+	int		nbr_pc;
+	int		i;
 }	t_data;
 
 void	parse_args(char **av, t_data *d, char **envp);

@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:50:59 by mtavares          #+#    #+#             */
-/*   Updated: 2022/05/27 12:39:55 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/05/29 14:02:43 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,26 @@ void	parse_args(char **av, t_data *d, char **envp)
 {
 	char	*p;
 
-	d->cmd = split(av[2], ' ');
-	p = get_path(envp);
-	if (!p)
-		exit(ft_printf("Path to binaries not found\n") != 0);
-	p += 5;
-	while (1)
+	d->i = -1;
+	while (++d->i < d->nbr_pc)
+		d->cmd[d->i] = split(av[2 + d->i], ' ');
+	d->i = -1;
+	while (++d->i < d->nbr_pc)
 	{
-		d->pc = strjoin(d->cmd[0], &p);
-		if (access(d->pc, F_OK) != -1)
-			break ;
-		if (!*p)
-			exit(ft_printf("Command doesn't exist\n") != 0);
+		p = get_path(envp);
+		if (!p)
+			exit(ft_printf("Path to binaries not found\n") != 0);
+		p += 5;
+		while (1)
+		{
+			d->pc[d->i] = strjoin(d->cmd[d->i][0], &p);
+			if (access(d->pc[0], F_OK) != -1)
+			{
+				ft_printf("%s\n", d->pc[d->i]);
+				break ;
+			}
+			if (!*p)
+				exit(ft_printf("Command doesn't exist\n") != 0);
+		}
 	}
-	// Funcitons that has the path + command
-	// Function to try the command exists using accesss!
 }

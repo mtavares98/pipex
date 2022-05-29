@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:14:58 by mtavares          #+#    #+#             */
-/*   Updated: 2022/05/27 12:43:27 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/05/28 00:53:41 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ static size_t	ft_strlen(char *s)
 {
 	size_t	i;
 
-	i = -1;
-	while (s && (s[++i] || s[i] == ':' || s[i] == ' '))
+	i = -1 + (s == NULL);
+	while (s && s[++i] && s[i] != ':')
 		;
-	return (i + (s[i] == ':' || s[i] == ' '));
+	return (i + (s[i] == ':'));
 }
 
 static char	**new_str(char **str, const char *s, char c, int counter)
@@ -80,15 +80,15 @@ char	*strjoin(char *cmd, char **path)
 {
 	int		i;
 	int		j;
-	int		cmd_size;
+	int		path_size;
 	char	*np;
 
-	cmd_size = ft_strlen(cmd);
-	np = (char *)malloc((cmd_size + ft_strlen(*path) + 1) * sizeof(char));
+	path_size = ft_strlen(*path);
+	np = (char *)malloc((ft_strlen(cmd) + path_size + 1) * sizeof(char));
 	if (!np)
 		return (NULL);
 	i = -1 * (path != NULL);
-	while (*path && **path)
+	while (path && *path && ++i < path_size - 1)
 	{
 		np[i] = **path;
 		*path += 1;
@@ -99,7 +99,7 @@ char	*strjoin(char *cmd, char **path)
 		*path += 1;
 	}
 	j = 0;
-	while (j < cmd_size)
+	while (cmd && cmd[j])
 		np[i++] = cmd[j++];
 	np[i] = '\0';
 	return (np);

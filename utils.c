@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:14:58 by mtavares          #+#    #+#             */
-/*   Updated: 2022/05/28 00:53:41 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/05/30 00:27:01 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	strncmp(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
-char	*strjoin(char *cmd, char **path)
+char	*get_complete_path(char *cmd, char **path)
 {
 	int		i;
 	int		j;

@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 18:16:06 by mtavares          #+#    #+#             */
-/*   Updated: 2022/05/29 14:05:42 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/05/29 23:17:58 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	process_child(char **av, t_data *d, char **env)
 {
 	int	fd;
 
-	fd = open(av[1], O_TRUNC | O_CREAT | O_RDWR);
+	fd = open(av[1], O_TRUNC | O_CREAT | O_RDWR, 0777);
 	if (fd == -1)
 		exit(ft_printf("Invalid file\n") != 0);
 	if (dup2(fd, STDOUT_FILENO) == -1)
@@ -27,6 +27,7 @@ void	process_child(char **av, t_data *d, char **env)
 	close(fd);
 	if (execve(d->pc[0], &d->cmd[0][0], env) == -1)
 		exit(ft_printf("Has been an error with execve\n") != 0);
+	close(STDOUT_FILENO);
 	exit(0);
 }
 

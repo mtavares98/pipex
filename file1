@@ -5,7 +5,7 @@ model		: 78
 model name	: Intel(R) Core(TM) i3-6006U CPU @ 2.00GHz
 stepping	: 3
 microcode	: 0xea
-cpu MHz		: 1962.012
+cpu MHz		: 1369.541
 cache size	: 3072 KB
 physical id	: 0
 siblings	: 4
@@ -33,7 +33,7 @@ model		: 78
 model name	: Intel(R) Core(TM) i3-6006U CPU @ 2.00GHz
 stepping	: 3
 microcode	: 0xea
-cpu MHz		: 2000.000
+cpu MHz		: 900.016
 cache size	: 3072 KB
 physical id	: 0
 siblings	: 4
@@ -61,7 +61,7 @@ model		: 78
 model name	: Intel(R) Core(TM) i3-6006U CPU @ 2.00GHz
 stepping	: 3
 microcode	: 0xea
-cpu MHz		: 1043.130
+cpu MHz		: 1355.246
 cache size	: 3072 KB
 physical id	: 0
 siblings	: 4

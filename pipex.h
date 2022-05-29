@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 14:27:41 by mtavares          #+#    #+#             */
-/*   Updated: 2022/05/28 18:20:45 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/05/30 00:27:14 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,6 @@ typedef struct s_data
 void	parse_args(char **av, t_data *d, char **envp);
 char	**split(const char *s, char c);
 int		strncmp(const char *s1, const char *s2, size_t n);
-char	*strjoin(char *cmd, char **path);
+char	*get_complete_path(char *cmd, char **path);
 
 #endif

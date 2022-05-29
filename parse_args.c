@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:50:59 by mtavares          #+#    #+#             */
-/*   Updated: 2022/05/29 14:02:43 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/05/29 22:57:17 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,7 @@ void	parse_args(char **av, t_data *d, char **envp)
 		{
 			d->pc[d->i] = strjoin(d->cmd[d->i][0], &p);
 			if (access(d->pc[0], F_OK) != -1)
-			{
-				ft_printf("%s\n", d->pc[d->i]);
 				break ;
-			}
 			if (!*p)
 				exit(ft_printf("Command doesn't exist\n") != 0);
 		}

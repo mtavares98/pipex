@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:50:59 by mtavares          #+#    #+#             */
-/*   Updated: 2022/05/29 22:57:17 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/05/30 13:10:40 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	parse_args(char **av, t_data *d, char **envp)
 		p += 5;
 		while (1)
 		{
-			d->pc[d->i] = strjoin(d->cmd[d->i][0], &p);
+			d->pc[d->i] = get_complete_path(d->cmd[d->i][0], &p);
 			if (access(d->pc[0], F_OK) != -1)
 				break ;
 			if (!*p)

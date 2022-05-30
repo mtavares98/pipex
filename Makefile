@@ -6,7 +6,7 @@
 #    By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/17 14:14:38 by mtavares          #+#    #+#              #
-#    Updated: 2022/05/29 14:55:56 by mtavares         ###   ########.fr        #
+#    Updated: 2022/05/30 13:07:28 by mtavares         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,6 @@ INCLUDE		=	-I.
 
 # Outro
 all:		$(NAME)
-
 
 %.o:		%.c
 				$(CC) $(CFLAGS) -c $< -o $@

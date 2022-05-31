@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:50:59 by mtavares          #+#    #+#             */
-/*   Updated: 2022/05/30 13:10:40 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/05/31 14:58:28 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,12 @@ void	parse_args(char **av, t_data *d, char **envp)
 {
 	char	*p;
 
+	d->cmd = malloc(sizeof(char **) * (d->nbr_pc + 1));
+	d->pc = malloc(sizeof(char *) * (d->nbr_pc + 1));
 	d->i = -1;
 	while (++d->i < d->nbr_pc)
 		d->cmd[d->i] = split(av[2 + d->i], ' ');
+	d->cmd[d->i] = NULL;
 	d->i = -1;
 	while (++d->i < d->nbr_pc)
 	{
@@ -40,10 +43,15 @@ void	parse_args(char **av, t_data *d, char **envp)
 		while (1)
 		{
 			d->pc[d->i] = get_complete_path(d->cmd[d->i][0], &p);
-			if (access(d->pc[0], F_OK) != -1)
+			if (access(d->pc[d->i], F_OK) != -1)
 				break ;
 			if (!*p)
-				exit(ft_printf("Command doesn't exist\n") != 0);
+			{
+				perror("Error\n");
+				exit(5);
+			}
+			free(d->pc[d->i]);
 		}
 	}
+	d->pc[d->i] = NULL;
 }

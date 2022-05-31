@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:14:58 by mtavares          #+#    #+#             */
-/*   Updated: 2022/05/30 00:27:01 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/05/30 19:33:20 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,13 @@ static char	**new_str(char **str, const char *s, char c, int counter)
 		;
 	if (!tmp && i > 0)
 		tmp = (char *)malloc(i + 1);
-	if (!tmp)
-		return (NULL);
-	str = new_str(str, s + i, c, counter + 1);
-	tmp[i] = '\0';
-	while (--i > -1)
-		tmp[i] = s[i];
+	if (tmp)
+	{
+		str = new_str(str, s + i, c, counter + 1);
+		tmp[i] = '\0';
+		while (--i > -1)
+			tmp[i] = s[i];
+	}
 	if (!str)
 		str = (char **) malloc(sizeof(char *) * (counter + 1));
 	if (!str)
@@ -104,3 +105,24 @@ char	*get_complete_path(char *cmd, char **path)
 	np[i] = '\0';
 	return (np);
 }
+
+/* int	main(void)
+{
+	int		i;
+	char	**str;
+
+	str = split("  tripouille  42  ", ' ');
+	i = 0;
+	while (str && str[i])
+	{
+		printf("%s\n", str[i]);
+		i++;
+	}
+	if (str)
+	{
+		printf("%s\n", str[i]);
+		while (--i < -1)
+			free(str[i]);
+		free(str);
+	}
+} */

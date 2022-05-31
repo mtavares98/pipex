@@ -1,0 +1,13 @@
+total 184
+-rw-r--r--  1 mtavares  2022_lisboa   1567 May 30 13:07 Makefile
+-rw-r--r--  1 mtavares  2022_lisboa      0 May 31 13:55 file1
+-rw-r--r--  1 mtavares  2022_lisboa      0 May 31 13:48 file2
+-rw-r--r--@ 1 mtavares  2022_lisboa   2731 May 31 13:55 main.c
+-rw-r--r--  1 mtavares  2022_lisboa   5484 May 31 13:55 main.o
+-rw-r--r--  1 mtavares  2022_lisboa   1559 May 30 19:48 parse_args.c
+-rw-r--r--  1 mtavares  2022_lisboa   3712 May 31 13:55 parse_args.o
+-rwxr-xr-x  1 mtavares  2022_lisboa  51840 May 31 13:55 pipex
+-rw-r--r--  1 mtavares  2022_lisboa   1369 May 31 13:50 pipex.h
+drwxr-xr-x  9 mtavares  2022_lisboa    306 May 31 13:55 printf
+-rw-r--r--  1 mtavares  2022_lisboa   2728 May 30 19:33 utils.c
+-rw-r--r--  1 mtavares  2022_lisboa   5804 May 31 13:55 utils.o

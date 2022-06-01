@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 18:16:06 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/01 16:16:42 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/01 16:22:38 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,4 @@ int	main(int ac, char **av, char **envp)
 	close(d.pfd[1]);
 	waitpid(d.pid1, NULL, 0);
 	waitpid(d.pid2, NULL, 0);
-	system("leaks -- pipex");
 }

@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 14:27:41 by mtavares          #+#    #+#             */
-/*   Updated: 2022/05/31 15:00:19 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/01 15:37:39 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,13 @@ typedef struct s_data
 	char	***cmd;
 	char	**pc;
 	int		nbr_pc;
-	int		id;
+	int		pid2;
 	int		i;
 	int		j;
 	int		infile;
 	int		outfile;
 	int		pfd[2];
+	int		pid1;
 }	t_data;
 
 void	parse_args(char **av, t_data *d, char **envp);

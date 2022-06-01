@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 18:16:06 by mtavares          #+#    #+#             */
-/*   Updated: 2022/05/31 19:07:56 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/01 16:16:42 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,52 +27,28 @@ static void	preparation(int ac, char **av, char **env, t_data *d)
 
 void	process_final(t_data *d, char **env)
 {
+	if (dup2(d->outfile, STDOUT_FILENO) == -1)
+		return ;
 	close(d->pfd[1]);
-	if (dup2(d->pfd[0], STDIN_FILENO) == -1)
-	{
-		close(d->pfd[0]);
-		perror("Error child1\n");
-		exit(2);
-	}
-	close(d->pfd[0]);
-	if (dup2(d->outfile, STDIN_FILENO) == -1)
-	{
-		close(d->outfile);
-		perror("Error child1\n");
-		exit(2);
-	}
 	close(d->outfile);
+	if (dup2(d->pfd[0], STDIN_FILENO) == -1)
+		return ;
+	close(d->pfd[0]);
 	if (execve(d->pc[1], d->cmd[1], env) == -1)
-	{
 		perror("Error child2\n");
-		exit(6);
-	}
-	exit(0);
 }
 
 void	process_child(t_data *d, char **env)
 {
-	close(d->pfd[0]);
 	if (dup2(d->pfd[1], STDOUT_FILENO) == -1)
-	{
-		close(d->pfd[1]);
-		perror("Error child1\n");
-		exit(2);
-	}
+		return ;
+	close(d->pfd[0]);
 	close(d->pfd[1]);
 	if (dup2(d->infile, STDIN_FILENO) == -1)
-	{
-		close(d->infile);
-		perror("Error child1\n");
-		exit(2);
-	}
+		return ;
 	close(d->infile);
 	if (execve(d->pc[0], d->cmd[0], env) == -1)
-	{
 		perror("Error child1\n");
-		exit(6);
-	}
-	exit(0);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -83,18 +59,20 @@ int	main(int ac, char **av, char **envp)
 	if (ac != 5)
 		exit(ft_printf("Invalid numbers of arguments\n") != 0);
 	preparation(ac, av, envp, &d);
-	d.id = fork();
-	if (d.id == -1)
-		exit(ft_printf("Error ocurred while forking\n") != 0);
-	if (d.id != 0)
-		wait(NULL);
-	else
+	d.pid1 = fork();
+	if (d.pid1 == -1)
+		return (1);
+	if (d.pid1 == 0)
 		process_child(&d, envp);
-	d.id = fork();
-	if (d.id == -1)
-		exit(ft_printf("Error ocurred while forking\n") != 0);
-	if (d.id != 0)
-		wait(NULL);
-	else
+	close(d.infile);
+	d.pid2 = fork();
+	if (d.pid2 == -1)
+		return (1);
+	if (d.pid2 == 0)
 		process_final(&d, envp);
+	close(d.pfd[0]);
+	close(d.pfd[1]);
+	waitpid(d.pid1, NULL, 0);
+	waitpid(d.pid2, NULL, 0);
+	system("leaks -- pipex");
 }

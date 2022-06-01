@@ -6,26 +6,13 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 18:16:06 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/01 16:22:38 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/01 22:55:06 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static void	preparation(int ac, char **av, char **env, t_data *d)
-{
-	parse_args(av, d, env);
-	d->infile = open(av[1], O_RDONLY);
-	if (d->infile < 0)
-		exit(ft_printf("File doesn't exits\n"));
-	d->outfile = open(av[ac - 1], O_TRUNC | O_CREAT | O_RDWR, 0000644);
-	if (d->infile < 0)
-		exit(ft_printf("File doesn't exits\n"));
-	if (pipe(d->pfd) == -1)
-		exit(ft_printf("Error with pipe\n"));
-}
-
-void	process_final(t_data *d, char **env)
+static void	process_final(t_data *d, char **env)
 {
 	if (dup2(d->outfile, STDOUT_FILENO) == -1)
 		return ;
@@ -38,7 +25,7 @@ void	process_final(t_data *d, char **env)
 		perror("Error child2\n");
 }
 
-void	process_child(t_data *d, char **env)
+static void	process_child(t_data *d, char **env)
 {
 	if (dup2(d->pfd[1], STDOUT_FILENO) == -1)
 		return ;
@@ -55,23 +42,23 @@ int	main(int ac, char **av, char **envp)
 {
 	t_data	d;
 
-	d.nbr_pc = ac - 3;
 	if (ac != 5)
-		exit(ft_printf("Invalid numbers of arguments\n") != 0);
+		exit_error(&d, "Invalid numbers of arguments\n");
 	preparation(ac, av, envp, &d);
-	d.pid1 = fork();
-	if (d.pid1 == -1)
-		return (1);
-	if (d.pid1 == 0)
+	d.pid[0] = fork();
+	if (d.pid[0] == -1)
+		exit_error(&d, "Fork failed\n");
+	if (d.pid[0] == 0)
 		process_child(&d, envp);
 	close(d.infile);
-	d.pid2 = fork();
-	if (d.pid2 == -1)
-		return (1);
-	if (d.pid2 == 0)
+	d.pid[d.nbr_pc -1] = fork();
+	if (d.pid[d.nbr_pc -1] == -1)
+		exit_error(&d, "Fork failed\n");
+	if (d.pid[d.nbr_pc -1] == 0)
 		process_final(&d, envp);
 	close(d.pfd[0]);
 	close(d.pfd[1]);
-	waitpid(d.pid1, NULL, 0);
-	waitpid(d.pid2, NULL, 0);
+	waitpid(d.pid[d.nbr_pc -1], NULL, 0);
+	waitpid(d.pid[d.nbr_pc -1], NULL, 0);
+	exit_prog(&d, 0);
 }

@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 18:16:06 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/01 22:55:06 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/02 00:37:17 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int	main(int ac, char **av, char **envp)
 {
 	t_data	d;
 
+	d.cmd = NULL;
+	d.pc = NULL;
 	if (ac != 5)
 		exit_error(&d, "Invalid numbers of arguments\n");
 	preparation(ac, av, envp, &d);

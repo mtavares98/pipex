@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:50:59 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/01 23:28:12 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/02 01:34:11 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ void	exit_prog(t_data *d, int i)
 void	preparation(int ac, char **av, char **env, t_data *d)
 {
 	d->nbr_pc = ac - 3;
-	d->cmd = NULL;
-	d->pc = NULL;
 	d->cmd = malloc(sizeof(char **) * (d->nbr_pc + 1));
 	d->pc = malloc(sizeof(char *) * (d->nbr_pc + 1));
 	if (!d->cmd || !d->pc)
@@ -79,14 +77,16 @@ void	parse_args(char **av, t_data *d, char **envp)
 
 	d->i = -1;
 	while (++d->i < d->nbr_pc)
+	{
 		d->cmd[d->i] = split(av[2 + d->i], ' ');
+		if (!d->cmd[d->i][0])
+			exit_error(d, "Invalid argument\n");
+	}
 	d->cmd[d->i] = NULL;
 	d->i = -1;
 	while (++d->i < d->nbr_pc)
 	{
 		p = get_path(envp);
-		if (!p)
-			exit_error(d, "Path to binaries not found\n");
 		while (1)
 		{
 			d->pc[d->i] = get_complete_path(d->cmd[d->i][0], &p);

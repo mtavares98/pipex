@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:14:58 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/01 22:47:24 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/02 01:40:18 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ char	*get_complete_path(char *cmd, char **path)
 	char	*np;
 
 	path_size = ft_strlen(*path);
-	np = (char *)malloc((ft_strlen(cmd) + path_size + 1) * sizeof(char));
+	np = malloc((ft_strlen(cmd) + path_size + 1) * sizeof(char));
 	if (!np)
 		return (NULL);
 	i = -1 * (path != NULL);
@@ -94,7 +94,7 @@ char	*get_complete_path(char *cmd, char **path)
 		np[i] = **path;
 		*path += 1;
 	}
-	if (*path && **path == ':')
+	if (*path && (**path == ':' || **path != '\0'))
 	{
 		np[i++] = '/';
 		*path += 1;

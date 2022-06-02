@@ -6,16 +6,32 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:50:59 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/02 17:03:25 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/02 17:12:52 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+void	handle_fork(t_data *d, char **envp)
+{
+	if (d->i % 2 == 0)
+		if (pipe(d->pfd) == -1)
+			exit_prog(d, "Error with pipe\n", 1);
+	d->pid = fork();
+	if (d->pid == -1)
+		exit_prog(d, "Fork failed\n", 1);
+	else if (d->pid == 0)
+		decide_process(d, envp);
+	if (d->i % 2 == 0)
+		close(d->pfd[1]);
+	else
+		close(d->pfd[0]);
+}
+
 void	exit_prog(t_data *d, char *s, int i)
 {
 	if (i == 1)
-		ft_printf("%s");
+		ft_printf("%s", s);
 	if (d->pc)
 	{
 		d->i = -1;

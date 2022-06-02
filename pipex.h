@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 14:27:41 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/01 23:09:59 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/02 16:36:44 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct s_data
 	char	***cmd;
 	char	**pc;
 	int		nbr_pc;
-	int		pid[2];
+	int		pid;
 	int		i;
 	int		j;
 	int		infile;

@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:50:59 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/02 01:34:11 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/02 16:39:42 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ void	preparation(int ac, char **av, char **env, t_data *d)
 	d->outfile = open(av[ac - 1], O_TRUNC | O_CREAT | O_RDWR, 0000644);
 	if (d->infile < 0)
 		exit_error(d, "File doesn't exits\n");
-	if (pipe(d->pfd) == -1)
-		exit_error(d, "Error with pipe\n");
 }
 
 char	*get_path(char **envp)

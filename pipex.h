@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 14:27:41 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/02 16:36:44 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/02 17:01:45 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ char	**split(const char *s, char c);
 int		strncmp(const char *s1, const char *s2, size_t n);
 char	*get_complete_path(char *cmd, char **path);
 void	preparation(int ac, char **av, char **env, t_data *d);
-void	exit_error(t_data *d, char *s);
-void	exit_prog(t_data *d, int i);
+void	exit_prog(t_data *d, char *s, int i);
 
 #endif

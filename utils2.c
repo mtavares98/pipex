@@ -6,20 +6,16 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:50:59 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/02 16:39:42 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/02 17:03:25 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	exit_error(t_data *d, char *s)
+void	exit_prog(t_data *d, char *s, int i)
 {
-	ft_printf("Error\n%s", s);
-	exit_prog(d, 1);
-}
-
-void	exit_prog(t_data *d, int i)
-{
+	if (i == 1)
+		ft_printf("%s");
 	if (d->pc)
 	{
 		d->i = -1;
@@ -48,14 +44,14 @@ void	preparation(int ac, char **av, char **env, t_data *d)
 	d->cmd = malloc(sizeof(char **) * (d->nbr_pc + 1));
 	d->pc = malloc(sizeof(char *) * (d->nbr_pc + 1));
 	if (!d->cmd || !d->pc)
-		exit_error(d, "Memory allocation failed for cmd or pc\n");
+		exit_prog(d, "Memory allocation failed for cmd or pc\n", 1);
 	parse_args(av, d, env);
 	d->infile = open(av[1], O_RDONLY);
 	if (d->infile < 0)
-		exit_error(d, "File doesn't exits\n");
+		exit_prog(d, "File doesn't exits\n", 1);
 	d->outfile = open(av[ac - 1], O_TRUNC | O_CREAT | O_RDWR, 0000644);
 	if (d->infile < 0)
-		exit_error(d, "File doesn't exits\n");
+		exit_prog(d, "File doesn't exits\n", 1);
 }
 
 char	*get_path(char **envp)
@@ -78,7 +74,7 @@ void	parse_args(char **av, t_data *d, char **envp)
 	{
 		d->cmd[d->i] = split(av[2 + d->i], ' ');
 		if (!d->cmd[d->i][0])
-			exit_error(d, "Invalid argument\n");
+			exit_prog(d, "Invalid argument\n", 1);
 	}
 	d->cmd[d->i] = NULL;
 	d->i = -1;
@@ -91,7 +87,7 @@ void	parse_args(char **av, t_data *d, char **envp)
 			if (access(d->pc[d->i], F_OK) != -1)
 				break ;
 			if (!*p)
-				exit_error(d, "Path to binary not found\n");
+				exit_prog(d, "Path to binary not found\n", 1);
 			free(d->pc[d->i]);
 		}
 	}

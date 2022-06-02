@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 18:16:06 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/02 16:56:45 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/02 17:05:33 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,20 +57,11 @@ static void	process_initial(t_data *d, char **env)
 static void	decide_process(t_data *d, char **env)
 {
 	if (!d->i)
-	{
-		ft_printf("decided initial process\n");
 		process_initial(d, env);
-	}
 	else if (d->i == d->nbr_pc - 1)
-	{
-		ft_printf("decided final process\n");
 		process_final(d, env);
-	}
 	else
-	{
-		ft_printf("decided middle process\n");
 		process_middle(d, env);
-	}
 }
 
 int	main(int ac, char **av, char **envp)
@@ -80,17 +71,17 @@ int	main(int ac, char **av, char **envp)
 	d.cmd = NULL;
 	d.pc = NULL;
 	if (ac < 5)
-		exit_error(&d, "Invalid numbers of arguments\n");
+		exit_prog(&d, "Invalid numbers of arguments\n", 1);
 	preparation(ac, av, envp, &d);
 	d.i = -1;
 	while (++d.i < d.nbr_pc)
 	{
 		if (d.i % 2 == 0)
 			if (pipe(d.pfd) == -1)
-				exit_error(&d, "Error with pipe\n");
+				exit_prog(&d, "Error with pipe\n", 1);
 		d.pid = fork();
 		if (d.pid == -1)
-			exit_error(&d, "Fork failed\n");
+			exit_prog(&d, "Fork failed\n", 1);
 		else if (d.pid == 0)
 			decide_process(&d, envp);
 		if (d.i % 2 == 0)

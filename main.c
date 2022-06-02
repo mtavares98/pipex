@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 18:16:06 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/02 17:15:05 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/02 17:25:33 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,9 @@ int	main(int ac, char **av, char **envp)
 	d.i = -1;
 	while (++d.i < d.nbr_pc)
 		handle_fork(&d, envp);
+	ft_printf("Finish the forks\n");
+	while (++d.i < d.nbr_pc)
+		waitpid(d.pid[d.i], NULL, 0);
 	close(d.infile);
 	close(d.outfile);
 	exit_prog(&d, NULL, 0);

@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:50:59 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/02 17:18:55 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/03 00:18:11 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	handle_fork(t_data *d, char **envp)
 {
 	if (d->i % 2 == 0)
-		if (pipe(d->pfd) == -1)
+		if (pipe(d->pfd[d->j]) == -1)
 			exit_prog(d, "Error with pipe\n", 1);
 	d->pid[d->i] = fork();
 	if (d->pid[d->i] == -1)
@@ -23,9 +23,9 @@ void	handle_fork(t_data *d, char **envp)
 	else if (d->pid[d->i] == 0)
 		decide_process(d, envp);
 	if (d->i % 2 == 0)
-		close(d->pfd[1]);
+		close(d->pfd[d->j][1]);
 	else
-		close(d->pfd[0]);
+		close(d->pfd[d->k][0]);
 }
 
 void	exit_prog(t_data *d, char *s, int i)
@@ -51,6 +51,8 @@ void	exit_prog(t_data *d, char *s, int i)
 		}
 		free(d->cmd);
 	}
+	if (d->pid)
+		free(d->pid);
 	exit(i);
 }
 
@@ -60,8 +62,8 @@ void	preparation(int ac, char **av, char **env, t_data *d)
 	d->cmd = malloc(sizeof(char **) * (d->nbr_pc + 1));
 	d->pc = malloc(sizeof(char *) * (d->nbr_pc + 1));
 	d->pid = malloc(sizeof(int) * d->nbr_pc);
-	if (!d->cmd || !d->pc)
-		exit_prog(d, "Memory allocation failed for cmd or pc\n", 1);
+	if (!d->cmd || !d->pc || !d->pid)
+		exit_prog(d, "Memory allocation failed for cmd or pc or pid\n", 1);
 	parse_args(av, d, env);
 	d->infile = open(av[1], O_RDONLY);
 	if (d->infile < 0)

@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 18:16:06 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/02 17:25:33 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/03 00:15:42 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,35 +17,37 @@ void	process_final(t_data *d, char **env)
 	if (dup2(d->outfile, STDOUT_FILENO) == -1)
 		return ;
 	close(d->infile);
-	close(d->pfd[1]);
+	close(d->pfd[d->k][1]);
 	close(d->outfile);
-	if (dup2(d->pfd[0], STDIN_FILENO) == -1)
+	if (dup2(d->pfd[d->k][0], STDIN_FILENO) == -1)
 		return ;
-	close(d->pfd[0]);
+	close(d->pfd[d->k][0]);
 	if (execve(d->pc[d->i], d->cmd[d->i], env) == -1)
 		perror("Error child2\n");
 }
 
 void	process_middle(t_data *d, char **env)
 {
-	if (dup2(d->pfd[1], STDOUT_FILENO) == -1)
+	close(d->pfd[d->k][1]);
+	close(d->pfd[d->j][0]);
+	if (dup2(d->pfd[d->j][1], STDOUT_FILENO) == -1)
 		return ;
+	close(d->pfd[d->k][1]);
 	close(d->infile);
 	close(d->outfile);
-	close(d->pfd[1]);
-	if (dup2(d->pfd[0], STDIN_FILENO) == -1)
+	if (dup2(d->pfd[d->k][0], STDIN_FILENO) == -1)
 		return ;
-	close(d->pfd[0]);
+	close(d->pfd[d->k][0]);
 	if (execve(d->pc[d->i], d->cmd[d->i], env) == -1)
 		perror("Error child2\n");
 }
 
 void	process_initial(t_data *d, char **env)
 {
-	if (dup2(d->pfd[1], STDOUT_FILENO) == -1)
+	if (dup2(d->pfd[d->j][1], STDOUT_FILENO) == -1)
 		return ;
-	close(d->pfd[0]);
-	close(d->pfd[1]);
+	close(d->pfd[d->j][0]);
+	close(d->pfd[d->j][1]);
 	close(d->outfile);
 	if (dup2(d->infile, STDIN_FILENO) == -1)
 		return ;
@@ -70,12 +72,21 @@ int	main(int ac, char **av, char **envp)
 
 	d.cmd = NULL;
 	d.pc = NULL;
+	d.pid = NULL;
 	if (ac < 5)
 		exit_prog(&d, "Invalid numbers of arguments\n", 1);
 	preparation(ac, av, envp, &d);
 	d.i = -1;
+	d.j = 0;
+	d.k = 1;
 	while (++d.i < d.nbr_pc)
+	{
 		handle_fork(&d, envp);
+		if (++d.j > 1)
+			d.j = 0;
+		if (++d.k > 0)
+			d.k = 0;
+	}
 	ft_printf("Finish the forks\n");
 	while (++d.i < d.nbr_pc)
 		waitpid(d.pid[d.i], NULL, 0);

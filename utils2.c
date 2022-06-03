@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:50:59 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/03 00:18:11 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/03 14:20:27 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	handle_fork(t_data *d, char **envp)
 {
-	if (d->i % 2 == 0)
+	if (d->i < d->nbr_pc - 1)
 		if (pipe(d->pfd[d->j]) == -1)
 			exit_prog(d, "Error with pipe\n", 1);
 	d->pid[d->i] = fork();
@@ -23,9 +23,17 @@ void	handle_fork(t_data *d, char **envp)
 	else if (d->pid[d->i] == 0)
 		decide_process(d, envp);
 	if (d->i % 2 == 0)
+	{
+		if (d->pfd[d->k][0] != -1)
+			close(d->pfd[d->k][0]);
 		close(d->pfd[d->j][1]);
+	}
 	else
+	{
+		if (d->pfd[d->j][1] != -1)
+			close(d->pfd[d->j][1]);
 		close(d->pfd[d->k][0]);
+	}
 }
 
 void	exit_prog(t_data *d, char *s, int i)
@@ -59,11 +67,20 @@ void	exit_prog(t_data *d, char *s, int i)
 void	preparation(int ac, char **av, char **env, t_data *d)
 {
 	d->nbr_pc = ac - 3;
+	d->pfd[1][0] = -1;
+	d->pfd[1][1] = -1;
 	d->cmd = malloc(sizeof(char **) * (d->nbr_pc + 1));
+	if (!d->cmd)
+		exit_prog(d, "Memory allocation failed for cmd\n", 1);
 	d->pc = malloc(sizeof(char *) * (d->nbr_pc + 1));
+	variables_init(d->cmd, NULL, NULL, d);
+	if (!d->pc)
+		exit_prog(d, "Memory allocation failed for pc\n", 1);
+	variables_init(NULL, d->pc, NULL, d);
 	d->pid = malloc(sizeof(int) * d->nbr_pc);
-	if (!d->cmd || !d->pc || !d->pid)
-		exit_prog(d, "Memory allocation failed for cmd or pc or pid\n", 1);
+	if (!d->pid)
+		exit_prog(d, "Memory allocation failed for pid\n", 1);
+	variables_init(NULL, NULL, d->pid, d);
 	parse_args(av, d, env);
 	d->infile = open(av[1], O_RDONLY);
 	if (d->infile < 0)

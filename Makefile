@@ -6,11 +6,11 @@
 #    By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/17 14:14:38 by mtavares          #+#    #+#              #
-#    Updated: 2022/06/01 22:33:50 by mtavares         ###   ########.fr        #
+#    Updated: 2022/06/03 14:21:51 by mtavares         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS		=	main.c utils.c utils2.c
+SRCS		=	main.c utils.c utils2.c variable_init.c
 
 OBJS		=	$(SRCS:.c=.o)
 

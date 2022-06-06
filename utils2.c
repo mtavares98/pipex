@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:50:59 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/03 14:20:27 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/05 16:31:51 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	handle_fork(t_data *d, char **envp)
 		exit_prog(d, "Fork failed\n", 1);
 	else if (d->pid[d->i] == 0)
 		decide_process(d, envp);
+	wait(NULL);
 	if (d->i % 2 == 0)
 	{
 		if (d->pfd[d->k][0] != -1)

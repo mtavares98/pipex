@@ -6,11 +6,48 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:21:45 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/07 00:21:06 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/07 17:36:24 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+static void	variable_init(char cmd, char cp, t_data *d)
+{
+	int	i;
+
+	i = -1;
+	if (cmd)
+		while (++i < d->nbr_cp)
+			d->cmd[i] = NULL;
+	i = -1;
+	if (cp)
+		while (++i < d->nbr_cp)
+			d->cp[i] = NULL;
+}
+
+void	initial_set(int ac, char **av, t_data *d)
+{
+	if (ac != 5)
+		exit_prog(d, "Wrong numbers of arguments\n", 1);
+	d->cmd = NULL;
+	d->cp = NULL;
+	d->nbr_cp = ac - 3;
+	d->infile = open(av[1], O_RDONLY);
+	if (d->infile == -1)
+		exit(ft_printf("Error\nFailed open infile\n"));
+	d->outfile = open(av[ac - 1], O_CREAT | O_TRUNC | O_RDWR, 0644);
+	if (d->outfile == -1)
+		exit(ft_printf("Error\nOn open the outfile\n"));
+	d->cmd = malloc(sizeof(char **) * (d->nbr_cp + 1));
+	if (!d->cmd)
+		exit(ft_printf("Error\nAllocation for cmd failed\n"));
+	variable_init(1, 0, d);
+	d->cp = malloc(sizeof(char *) * (d->nbr_cp + 1));
+	if (!d->cp)
+		exit_prog(d, "Allocation for pc failed\n", 1);
+	variable_init(0, 1, d);
+}
 
 char	*get_path(char **envp)
 {
@@ -34,7 +71,6 @@ void	parse_args(char **av, t_data *d, char *path)
 		if (!d->cmd[d->i][0])
 			exit_prog(d, "Invalid argument\n", 1);
 	}
-	d->cmd[d->i] = NULL;
 	d->i = -1;
 	while (++d->i < d->nbr_cp)
 	{

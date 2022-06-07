@@ -6,25 +6,11 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 18:16:06 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/07 00:24:35 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/07 17:20:22 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-static void	variable_init(char ***cmd, char **cp, t_data *d)
-{
-	int	i;
-
-	i = -1;
-	if (cmd)
-		while (++i < d->nbr_cp)
-			cmd[i] = NULL;
-	i = -1;
-	if (cp)
-		while (++i < d->nbr_cp)
-			cp[i] = NULL;
-}
 
 void	exit_prog(t_data *d, char *s, int i)
 {
@@ -74,25 +60,14 @@ void	child_process(t_data *d, int input, int output, char **envp)
 
 int	main(int ac, char **av, char **envp)
 {
+	char	*p;
 	t_data	d;
 
-	if (ac != 5)
-		exit_prog(&d, "Wrong numbers of arguments\n", 1);
-	d.infile = open(av[1], O_RDONLY);
-	if (d.infile == -1)
-		exit_prog(&d, "Failed open infile\n", 1);
-	d.outfile = open(av[ac - 1], O_CREAT | O_TRUNC | O_RDWR, 0644);
-	if (d.outfile == -1)
-		exit_prog(&d, "On open the outfile\n", 1);
-	d.cmd = malloc(sizeof(char **) * (d.nbr_cp + 1));
-	if (!d.cmd)
-		exit_prog(&d, "Allocation for cmd failed\n", 1);
-	variable_init(d.cmd, NULL, &d);
-	d.cp = malloc(sizeof(char *) * (d.nbr_cp + 1));
-	if (!d.cp)
-		exit_prog(&d, "Allocation for cmd failed\n", 1);
-	variable_init(NULL, d.cp, &d);
-	parse_args(av, &d, get_path(envp));
+	initial_set(ac, av, &d);
+	p = get_path(envp);
+	if (!p)
+		exit_prog(&d, "Path doesn't exist\n", 1);
+	parse_args(av, &d, p);
 	if (pipe(d.pfd) == -1)
 		exit_prog(&d, "Pipe\n", 1);
 	d.i = 0;

@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 14:27:41 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/06 23:50:34 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/07 17:09:11 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_data
 	int		pfd[2];
 }	t_data;
 
+void	initial_set(int ac, char **av, t_data *d);
 void	exit_prog(t_data *d, char *s, int i);
 int		strncmp(const char *s1, const char *s2, size_t n);
 char	**split(const char *s, char c);

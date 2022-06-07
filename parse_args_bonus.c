@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:21:45 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/07 01:45:47 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/07 16:16:36 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ static void	read_heredoc(t_data *d, char **av)
 
 void	heredoc(t_data *d, char **av, int ac)
 {
+	d->heredoc = 0;
 	if (strncmp(av[1], "heredoc", 8))
 	{
 		if (ac < 5)
 			exit_prog(d, "Wrong numbers of arguments\n", 1);
-		d->heredoc = 0;
 		d->infile = open(av[1], O_RDONLY);
 		if (d->infile == -1)
 			exit_prog(d, "Failed open infile\n", 1);

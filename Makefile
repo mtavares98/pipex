@@ -6,7 +6,7 @@
 #    By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/17 14:14:38 by mtavares          #+#    #+#              #
-#    Updated: 2022/06/07 01:49:26 by mtavares         ###   ########.fr        #
+#    Updated: 2022/06/07 16:08:50 by mtavares         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ RM			=	rm -rf
 
 NAME		=	pipex
 
-NAME_B		=	pipex
+NAME_B		=	pipex_bonus
 
 LIBS		=	printf/libftprintf.a
 
@@ -40,32 +40,28 @@ all:		$(NAME)
 %.o:		%.c
 				$(CC) $(CFLAGS) -c $< -o $@
 
-maker:
-					@make -C printf
+$(LIBS):
+	@make -C printf				
 
-$(NAME):	maker $(OBJS)
+$(NAME):	$(LIBS) $(OBJS)
 				$(CC) $(CFLAGS) $(INCLUDE) $(OBJS) $(LIBS) -o $(NAME)
 				
 bonus:		$(NAME_B)
 
-$(NAME_B):	maker $(OBJS_B)
+$(NAME_B): $(LIBS) $(OBJS_B)
 				$(CC) $(CFLAGS) $(INCLUDE) $(OBJS_B) $(LIBS) -o $(NAME_B)
 
-makerclean:
+clean:
+				$(RM) $(OBJS) $(OBJS_B)
 				make clean -C printf
 
-makerfclean:
+fclean: clean
+				$(RM) $(NAME) $(NAME_B)
 				make fclean -C printf
-
-clean:		makerclean
-				$(RM) $(OBJS) $(OBJS_B)
-
-fclean:		makerfclean clean
-				$(RM) $(NAME)
 
 re:		fclean all
 
 rebonus:	fclean bonus
 
-.SILENT: all clean fclean re maker makerclean makerfclean
-.PHONY: all clean fclean re maker makerclean makerfclean
+# .SILENT: all clean fclean re maker makerclean makerfclean
+.PHONY: all clean fclean re

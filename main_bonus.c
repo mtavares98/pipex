@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:16:31 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/07 01:44:21 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/07 16:21:08 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,23 @@ void	exit_prog(t_data *d, char *s, int i)
 		}
 		free(d->cmd);
 	}
+	if (d->heredoc)
+		unlink(d->hdt);
 	exit(i);
 }
 
-static void	variable_init(char ***cmd, char **cp, t_data *d)
+static void	variable_init(int cmd, int cp, t_data *d)
 {
 	int	i;
 
 	i = -1;
 	if (cmd)
 		while (++i < d->nbr_cp)
-			cmd[i] = NULL;
+			d->cmd[i] = NULL;
 	i = -1;
 	if (cp)
 		while (++i < d->nbr_cp)
-			cp[i] = NULL;
+			d->cp[i] = NULL;
 }
 
 void	child_process(t_data *d, int input, int output, char **envp)
@@ -116,11 +118,11 @@ int	main(int ac, char **av, char **envp)
 	d.cmd = malloc(sizeof(char **) * (d.nbr_cp + 1));
 	if (!d.cmd)
 		exit_prog(&d, "Allocation for cmd failed\n", 1);
-	variable_init(d.cmd, NULL, &d);
+	variable_init(1, 0, &d);
 	d.cp = malloc(sizeof(char *) * (d.nbr_cp + 1));
 	if (!d.cp)
 		exit_prog(&d, "Allocation for cmd failed\n", 1);
-	variable_init(NULL, d.cp, &d);
+	variable_init(0, 1, &d);
 	parse_args(av, &d, get_path(envp));
 	prepare_fork(&d, envp);
 	exit_prog(&d, NULL, 0);

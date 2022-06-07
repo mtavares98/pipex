@@ -6,7 +6,7 @@
 #    By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/11 10:01:12 by mtavares          #+#    #+#              #
-#    Updated: 2022/04/05 16:27:04 by mtavares         ###   ########.fr        #
+#    Updated: 2022/06/07 21:48:44 by mtavares         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,19 +18,22 @@ NAME	= libftprintf.a
 
 CC		= gcc
 
-CFLAGS	= -Wall -Wextra -Werror -I.
+CFLAGS	= -Wall -Wextra -Werror
 RM		= rm -rf
 
 all:	$(NAME)
 
+%.o:	%.c
+	@$(CC) $(CFLAGS) -c $< -o $@ 
+
 $(NAME):	$(OBJS)
-			ar rcs $(NAME) $(OBJS)
+			@ar rcs $(NAME) $(OBJS)
 
 clean:
-		$(RM) $(OBJS)
+		@$(RM) $(OBJS)
 
 fclean:	clean
-		$(RM) $(NAME)
+		@$(RM) $(NAME)
 
 re:		fclean all
 

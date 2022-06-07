@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:21:45 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/07 18:42:59 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/07 21:56:31 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ void	initial_set(int ac, char **av, t_data *d)
 {
 	if (ac != 5)
 		exit(ft_printf("Error\nWrong numbers of arguments\n", 1));
-	d->cmd = NULL;
-	d->cp = NULL;
 	d->nbr_cp = ac - 3;
 	d->infile = open(av[1], O_RDONLY);
 	if (d->infile == -1)

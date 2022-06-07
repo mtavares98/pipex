@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:14:58 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/02 01:40:18 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/07 01:47:22 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 static size_t	ft_strlen(char *s)
 {
@@ -68,6 +68,8 @@ int	strncmp(const char *s1, const char *s2, size_t n)
 
 	str1 = (unsigned char *)s1;
 	str2 = (unsigned char *)s2;
+	if (!str1 || !str2)
+		return (-1);
 	i = -1;
 	while (str1[++i] && str2[i] && i < n)
 		if (str1[i] != str2[i])

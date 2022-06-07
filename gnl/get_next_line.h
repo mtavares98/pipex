@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   variable_init.c                                    :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/03 14:20:30 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/03 14:20:42 by mtavares         ###   ########.fr       */
+/*   Created: 2022/03/20 15:47:11 by mtavares          #+#    #+#             */
+/*   Updated: 2022/04/19 17:06:58 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-void	variables_init(char ***cmd, char **pc, int *pid, t_data *d)
-{
-	int	i;
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdio.h>
 
-	i = -1;
-	if (cmd)
-		while (++i < d->nbr_pc)
-			cmd[i] = NULL;
-	i = -1;
-	if (pc)
-		while (++i < d->nbr_pc)
-			pc[i] = NULL;
-	if (pid)
-		while (++i < d->nbr_pc)
-			pid[i] = 0;
-}
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 2
+# endif
+
+char	*ft_get_line(char *buff, char *line);
+char	*get_next_line(int fd);
+int		ft_checknl(char *buff);
+
+#endif

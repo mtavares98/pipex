@@ -6,37 +6,11 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:21:45 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/06 14:51:46 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/07 00:21:06 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-void	exit_prog(t_data *d, char *s, int i)
-{
-	if (i != 0)
-		ft_printf("Error\n%s", s);
-	if (d->cp)
-	{
-		d->i = -1;
-		while (d->cp[++d->i])
-			free(d->cp[d->i]);
-		free(d->cp);
-	}
-	if (d->cmd)
-	{
-		d->i = -1;
-		while (d->cmd[++d->i])
-		{
-			d->j = -1;
-			while (d->cmd[d->i][++d->j])
-				free(d->cmd[d->i][d->j]);
-			free(d->cmd[d->i]);
-		}
-		free(d->cmd);
-	}
-	exit(i);
-}
 
 char	*get_path(char **envp)
 {

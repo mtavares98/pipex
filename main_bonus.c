@@ -1,16 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:16:31 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/06 16:17:47 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/07 01:44:21 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
+
+void	exit_prog(t_data *d, char *s, int i)
+{
+	if (i != 0)
+		ft_printf("Error\n%s", s);
+	if (d->cp)
+	{
+		d->i = -1;
+		while (d->cp[++d->i])
+			free(d->cp[d->i]);
+		free(d->cp);
+	}
+	if (d->cmd)
+	{
+		d->i = -1;
+		while (d->cmd[++d->i])
+		{
+			d->j = -1;
+			while (d->cmd[d->i][++d->j])
+				free(d->cmd[d->i][d->j]);
+			free(d->cmd[d->i]);
+		}
+		free(d->cmd);
+	}
+	exit(i);
+}
 
 static void	variable_init(char ***cmd, char **cp, t_data *d)
 {
@@ -54,6 +80,8 @@ static void	prepare_fork(t_data *d, char **envp)
 	if (pipe(d->pfd[d->j]) == -1)
 		exit_prog(d, "Pipe\n", 1);
 	child_process(d, d->infile, d->pfd[d->j][1], envp);
+	if (d->heredoc)
+		unlink(d->hdt);
 	d->j++;
 	if (++d->k > 1)
 		d->k = 0;
@@ -74,9 +102,17 @@ int	main(int ac, char **av, char **envp)
 {
 	t_data	d;
 
-	if (ac < 5)
-		return (ft_printf("Wrong number of arguments\n"));
-	d.nbr_cp = ac - 3;
+	heredoc(&d, av, ac);
+	if (d.heredoc)
+	{
+		d.infile = open(d.hdt, O_RDONLY);
+		if (d.infile < 0)
+		{
+			unlink(d.hdt);
+			exit_prog(&d, "Failed open infile\n", 1);
+		}
+	}
+	d.nbr_cp = ac - 3 - d.heredoc;
 	d.cmd = malloc(sizeof(char **) * (d.nbr_cp + 1));
 	if (!d.cmd)
 		exit_prog(&d, "Allocation for cmd failed\n", 1);
@@ -85,12 +121,6 @@ int	main(int ac, char **av, char **envp)
 	if (!d.cp)
 		exit_prog(&d, "Allocation for cmd failed\n", 1);
 	variable_init(NULL, d.cp, &d);
-	d.infile = open(av[1], O_RDONLY);
-	if (d.infile == -1)
-		exit_prog(&d, "On open the infile\n", 1);
-	d.outfile = open(av[ac - 1], O_CREAT | O_TRUNC | O_RDWR, 0644);
-	if (d.outfile == -1)
-		exit_prog(&d, "On open the outfile\n", 1);
 	parse_args(av, &d, get_path(envp));
 	prepare_fork(&d, envp);
 	exit_prog(&d, NULL, 0);

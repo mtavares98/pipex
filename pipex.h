@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 14:27:41 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/03 14:21:31 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/06 23:50:34 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,28 +25,21 @@
 typedef struct s_data
 {
 	char	***cmd;
-	char	**pc;
-	int		nbr_pc;
-	int		*pid;
+	char	**cp;
+	int		nbr_cp;
+	int		pid;
 	int		i;
 	int		j;
 	int		k;
 	int		infile;
 	int		outfile;
-	int		pfd[2][2];
+	int		pfd[2];
 }	t_data;
 
-void	variables_init(char ***cmd, char **pc, int *pid, t_data *d);
-void	parse_args(char **av, t_data *d, char **envp);
-char	**split(const char *s, char c);
-int		strncmp(const char *s1, const char *s2, size_t n);
-char	*get_complete_path(char *cmd, char **path);
-void	preparation(int ac, char **av, char **env, t_data *d);
 void	exit_prog(t_data *d, char *s, int i);
-void	process_final(t_data *d, char **env);
-void	process_middle(t_data *d, char **env);
-void	process_initial(t_data *d, char **env);
-void	decide_process(t_data *d, char **env);
-void	handle_fork(t_data *d, char **envp);
-
+int		strncmp(const char *s1, const char *s2, size_t n);
+char	**split(const char *s, char c);
+void	parse_args(char **av, t_data *d, char *path);
+char	*get_complete_path(char *cmd, char **path);
+char	*get_path(char **envp);
 #endif

@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:21:45 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/07 17:36:24 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/07 18:42:59 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,18 @@ static void	variable_init(char cmd, char cp, t_data *d)
 
 	i = -1;
 	if (cmd)
-		while (++i < d->nbr_cp)
+		while (++i <= d->nbr_cp)
 			d->cmd[i] = NULL;
 	i = -1;
 	if (cp)
-		while (++i < d->nbr_cp)
+		while (++i <= d->nbr_cp)
 			d->cp[i] = NULL;
 }
 
 void	initial_set(int ac, char **av, t_data *d)
 {
 	if (ac != 5)
-		exit_prog(d, "Wrong numbers of arguments\n", 1);
+		exit(ft_printf("Error\nWrong numbers of arguments\n", 1));
 	d->cmd = NULL;
 	d->cp = NULL;
 	d->nbr_cp = ac - 3;

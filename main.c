@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 18:16:06 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/07 17:20:22 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/07 18:38:22 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,13 @@ int	main(int ac, char **av, char **envp)
 	if (!p)
 		exit_prog(&d, "Path doesn't exist\n", 1);
 	parse_args(av, &d, p);
+	d.i = -1;
+	while (++d.i < d.nbr_cp)
+	{
+		d.j = -1;
+		while (++d.j < d.nbr_cp)
+			ft_printf("%s\n", d.cmd[d.i][d.j]);
+	}
 	if (pipe(d.pfd) == -1)
 		exit_prog(&d, "Pipe\n", 1);
 	d.i = 0;

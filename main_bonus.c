@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 16:16:31 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/07 16:21:08 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/07 18:46:05 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,11 @@ static void	variable_init(int cmd, int cp, t_data *d)
 
 	i = -1;
 	if (cmd)
-		while (++i < d->nbr_cp)
+		while (++i <= d->nbr_cp)
 			d->cmd[i] = NULL;
 	i = -1;
 	if (cp)
-		while (++i < d->nbr_cp)
+		while (++i <= d->nbr_cp)
 			d->cp[i] = NULL;
 }
 

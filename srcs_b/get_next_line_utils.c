@@ -6,11 +6,11 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 16:14:30 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/06 22:05:32 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/09 19:57:58 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../includes/get_next_line.h"
 
 int	ft_checknl(char *buff)
 {

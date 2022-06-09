@@ -6,11 +6,11 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 16:14:27 by mtavares          #+#    #+#             */
-/*   Updated: 2022/04/19 18:29:51 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/09 02:23:59 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../includes/get_next_line.h"
 
 char	*get_next_line(int fd)
 {

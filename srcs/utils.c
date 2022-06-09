@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_bonus.c                                      :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/23 13:14:58 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/07 01:47:22 by mtavares         ###   ########.fr       */
+/*   Created: 2022/06/09 13:33:09 by mtavares          #+#    #+#             */
+/*   Updated: 2022/06/09 13:33:53 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex_bonus.h"
+#include "../includes/pipex.h"
 
 static size_t	ft_strlen(char *s)
 {
@@ -112,7 +112,6 @@ char	*get_complete_path(char *cmd, char **path)
 {
 	int		i;
 	char	**str;
-
 	str = split("  tripouille  42  ", ' ');
 	i = 0;
 	while (str && str[i])

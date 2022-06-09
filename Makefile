@@ -5,62 +5,70 @@
 #                                                     +:+ +:+         +:+      #
 #    By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/05/17 14:14:38 by mtavares          #+#    #+#              #
-#    Updated: 2022/06/07 21:52:51 by mtavares         ###   ########.fr        #
+#    Created: 2022/06/09 00:52:18 by mtavares          #+#    #+#              #
+#    Updated: 2022/06/09 20:59:00 by mtavares         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS		=	main.c utils.c parse_args.c \
-				gnl/get_next_line.c gnl/get_next_line_utils.c \
+SRCS		=	$(foreach dir, $(SRCS_DIR), $(wildcard $(dir)/*.c))
 
-SRCS_B		=	main_bonus.c utils_bonus.c parse_args_bonus.c \
-				gnl/get_next_line.c gnl/get_next_line_utils.c \
+SRCS_DIR	=	srcs
 
-OBJS		=	$(SRCS:.c=.o)
+SRCS_B		=	$(foreach dir, $(SRCS_B_DIR), $(wildcard $(dir)/*.c))
 
-OBJS_B		=	$(SRCS_B:.c=.o)
+SRCS_B_DIR	=	srcs_b
 
-CC			=	gcc	#-g -fsanitize=address
+OBJS		=	$(subst $(SRCS_DIR), $(OBJS_DIR), $(SRCS:.c=.o))
+
+OBJS_B		=	$(subst $(SRCS_B_DIR),$(OBJS_DIR),$(SRCS_B:.c=.o))
+
+OBJS_DIR	=	objs
+
+NAME		=	pipex_b
+
+NAME_B		=	pipex
+
+CC			=	gcc -g
 
 CFLAGS		=	-Wall -Wextra -Werror
 
 RM			=	rm -rf
 
-NAME		=	pipex
+PRINTF		=	libs/printf_fd/libprintf_fd.a
 
-NAME_B		=	pipex_bonus
 
-LIBS		=	printf/libftprintf.a
+all:	$(NAME)
 
-INCLUDE		=	-I.
+$(OBJS_DIR)/%.o :	$(SRCS_DIR)/%.c
+		mkdir -p $(OBJS_DIR)
+		$(CC) $(CFLAGS) -c $< -o $@
 
-# Outro
-all:		$(NAME)
+$(PRINTF):
+		make -C libs/printf_fd
 
-%.o:		%.c
-				@$(CC) $(CFLAGS) -c $< -o $@
+$(NAME):			$(PRINTF) $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(PRINTF) -o $(NAME)
 
-$(LIBS):
-	@make -C printf				
 
-$(NAME):	$(LIBS) $(OBJS)
-				@$(CC) $(CFLAGS) $(INCLUDE) $(OBJS) $(LIBS) -o $(NAME)
-				
-b:		$(NAME_B)
+$(OBJS_DIR)/%.o :	$(SRCS_B_DIR)/%.c
+		mkdir -p $(OBJS_DIR)
+		$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME_B): $(LIBS) $(OBJS_B)
-				@$(CC) $(CFLAGS) $(INCLUDE) $(OBJS_B) $(LIBS) -o $(NAME_B)
+bonus:	$(NAME_B)
+
+$(NAME_B):			$(PRINTF) $(OBJS_B)
+		$(CC) $(CFLAGS) $(OBJS_B) $(PRINTF) -o $(NAME_B)
 
 clean:
-				@$(RM) $(OBJS) $(OBJS_B)
-				@make clean -C printf
+		$(RM) $(OBJS_DIR)
+		make clean -C libs/printf_fd
 
-fclean: clean
-				@$(RM) $(NAME) $(NAME_B) pipex_bonus.dSYM pipex.dSYM
-				@make fclean -C printf
+fclean:				clean
+		$(RM) $(NAME) $(NAME_B)
+		make fclean -C libs/printf_fd
 
-re:		fclean all
+re: 				fclean all
 
-reb:	fclean b
+reb:			fclean bonus
 
-.PHONY: all clean fclean re b reb
+.PHONY:				all bonus clean fclean re reb

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/05 16:17:22 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/07 01:04:12 by mtavares         ###   ########.fr       */
+/*   Created: 2022/06/09 01:08:46 by mtavares          #+#    #+#             */
+/*   Updated: 2022/06/09 20:27:57 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <sys/wait.h> 
-# include "printf/ft_printf.h"
-# include "gnl/get_next_line.h"
+# include "../libs/printf_fd/include/printf_fd.h"
+# include "get_next_line.h"
 
 // # define malloc(x) NULL
 
@@ -28,6 +28,8 @@ typedef struct s_data
 	char	***cmd;
 	char	**cp;
 	char	*hdt;
+	int		*pid;
+	int		pfd[2][2];
 	int		nbr_cp;
 	int		i;
 	int		j;
@@ -35,16 +37,16 @@ typedef struct s_data
 	int		heredoc;
 	int		infile;
 	int		outfile;
-	int		pid;
-	int		pfd[2][2];
 }	t_data;
 
-void	heredoc(t_data *d, char **av, int ac);
 void	exit_prog(t_data *d, char *s, int i);
-int		strncmp(const char *s1, const char *s2, size_t n);
-char	**split(const char *s, char c);
-void	parse_args(char **av, t_data *d, char *path);
+void	heredoc(t_data *d, int ac, char **av);
+void	variables_init(int ac, t_data *d);
 char	*get_complete_path(char *cmd, char **path);
 char	*get_path(char **envp);
+void	parse_args(char **av, t_data *d, char *path);
+char	**split(const char *s, char c);
+int		strncmp(const char *s1, const char *s2, size_t n);
+void	handle_fork(t_data *d, char **envp);
 
 #endif

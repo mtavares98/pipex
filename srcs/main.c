@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 01:10:20 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/09 17:21:22 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/10 13:06:04 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(int ac, char **av, char **envp)
 	d.cmd = NULL;
 	d.cp = NULL;
 	d.pid = NULL;
-	if (ac < 5)
+	if (ac != 5)
 		exit_prog(&d, "Wrong number of arguments\n", 1);
 	variables_init(ac, av, &d);
 	path = get_path(envp);

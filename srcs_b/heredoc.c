@@ -6,7 +6,7 @@
 /*   By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 19:56:11 by mtavares          #+#    #+#             */
-/*   Updated: 2022/06/09 20:53:27 by mtavares         ###   ########.fr       */
+/*   Updated: 2022/06/10 13:21:14 by mtavares         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	read_heredoc(t_data *d, char **av)
 
 void	heredoc(t_data *d, int ac, char **av)
 {
-	if (strncmp(av[1], "heredoc", 8))
+	if (strncmp(av[1], "here_doc", 9))
 	{
 		d->infile = open(av[1], O_RDONLY);
 		if (d->infile == -1)
@@ -50,6 +50,8 @@ void	heredoc(t_data *d, int ac, char **av)
 			exit_prog(d, "Outfile wasn't created\n", 1);
 		return ;
 	}
+	if (ac < 6)
+		exit_prog(d, "Wrong number of arguments\n", 1);
 	d->heredoc = 1;
 	d->hdt = ".heredoctmp";
 	d->infile = open(d->hdt, O_CREAT | O_WRONLY | O_TRUNC, 0644);

@@ -6,7 +6,7 @@
 #    By: mtavares <mtavares@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/09 00:52:18 by mtavares          #+#    #+#              #
-#    Updated: 2022/06/09 20:59:00 by mtavares         ###   ########.fr        #
+#    Updated: 2022/06/10 13:21:41 by mtavares         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,9 +24,9 @@ OBJS_B		=	$(subst $(SRCS_B_DIR),$(OBJS_DIR),$(SRCS_B:.c=.o))
 
 OBJS_DIR	=	objs
 
-NAME		=	pipex_b
+NAME		=	pipex
 
-NAME_B		=	pipex
+NAME_B		=	pipex_b
 
 CC			=	gcc -g
 
@@ -69,6 +69,6 @@ fclean:				clean
 
 re: 				fclean all
 
-reb:			fclean bonus
+rebonus:			fclean bonus
 
 .PHONY:				all bonus clean fclean re reb
